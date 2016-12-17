@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>iSec Capture | codingkid.ninja</title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+  </head>
+  <body><span style="font-family: Comfortaa, Verdana;"> </span>
+    <p> </p>
+    <span style="font-family: Comfortaa, Verdana;"> </span>
+    <h1 style="    text-align: center;"><span style="font-family: Comfortaa, Verdana;">codingkid.ninja</span></h1>
+    <span style="font-family: Dekko, cursive;"> </span>
+    <p style="text-align: center;"><span style="font-family: Comfortaa, Verdana;"><a
+          href="index.html">Home</a> | <a href="stuff.html">Stuff</a> | <a href="https://github.com/Merlin04">Github</a>
+        | <a href="Hello%20World%21.html">Test page</a> | <a href="http://codingkid.weebly.com">Old
+          site</a><br>
+      </span> </p>
+    <span style="font-family: Comfortaa, Verdana;"> </span>
+    <p><span style="font-family: Comfortaa, Verdana;"><br>
+      </span> </p>
+    <span style="font-family: Comfortaa, Verdana;"> </span>
+    <p><span style="font-family: Comfortaa, Verdana;"><br>
+        iSec Capture is a Raspberry Pi security camera connected to the internet
+        through Adafruit IO. It is housed in a dummy security camera. <br>
+      </span></p>
+    <img style="width: 451px; height: 338px;" title="iSec Logo" alt="iSec Logo"
+      src="isec.png"> <br>
+    <span style="font-family: Comfortaa, Verdana;"><br>
+      Here is a materials list:<br>
+    </span>
+    <ul>
+      <li><span style="font-family: Comfortaa,Verdana;">1x USB Hub (I used one
+          from iBoost, but it is not on Amazon anymore. Choose a small flat one.)</span></li>
+      <li><span style=" font-family: Comfortaa,Verdana;">1x Raspberry Pi Zero
+          v1.3. I got mine from Adafruit. <br>
+        </span></li>
+      <li><span style="  font-family: Comfortaa,Verdana;">1x MicroSD card, any
+          size. Make sure it is a reputable brand and will fit an OS! I like <a
+            href="https://www.amazon.com/SanDisk-Ultra-Micro-Adapter-SDSQUNC-016G-GN6MA/dp/B010Q57SEE/">this
+            one</a>.&nbsp;</span></li>
+      <li><span style="   font-family: Comfortaa,Verdana;">1x USB cable. The end
+          doesn't matter, as long as one end is a USB plug. <a href="https://www.amazon.com/Belkin-Hi-Speed-USB-Cable-Feet/dp/B00004Z5M1/">This
+            one</a> is a good length, a good price, and has thick power
+          wires.&nbsp;</span></li>
+      <li><span style="    font-family: Comfortaa,Verdana;">1x USB power brick.
+          Ideally it would supply 2 amps. I haven't found a super-awesome yet,
+          but <a href="https://www.amazon.com/AmazonBasics-One-Port-USB-Wall-Charger-2-4/dp/B01F2PW4EC/">this
+            one</a> seems like a candidate.&nbsp;</span></li>
+      <li><span style="     font-family: Comfortaa,Verdana;">1x Raspberry Pi
+          Camera. The version doesn't matter. I am using the old camera. <br>
+        </span></li>
+      <li><span style="      font-family: Comfortaa,Verdana;">1x Pi Zero camera
+          cable adapter. I got mine from Adafruit. <br>
+        </span></li>
+      <li><span style="       font-family: Comfortaa,Verdana;">1x Fake security
+          camera. I can't find the one I used on Amazon. If it helps, my camera
+          had a battery compartment, and made noises when it detected motion,
+          like "Intruder Alert! You have entered a no-trespassing zone! Do not
+          touch anything!"</span></li>
+      <li><span style="        font-family: Comfortaa,Verdana;">Assorted buttons.
+          These will be used to control the camera. <br>
+        </span></li>
+      <li><span style="         font-family: Comfortaa,Verdana;">1x wifi dongle.
+          I recommend <a href="https://www.amazon.com/LinkSprite-WiFi-Dongle-for-pcDuino/dp/B01MA0RRRG/">this
+            one</a> because it has no casing and is cheap. It is intended for
+          the "pcduino" dev board, but I have tested it and it works with
+          Raspberry Pi.&nbsp;</span></li>
+      <li><span style="          font-family: Comfortaa,Verdana;">1x Tiny USB
+          flash drive. I used <a href="https://www.amazon.com/dp/B01BGTG41W/">this
+            one</a>. It is USB 3.0, but that doesn't matter. The drive should be
+          fairly large (in storage). <br>
+        </span></li>
+    </ul>
+    <span style="font-family: Comfortaa, Verdana;">Here is the skills you need
+      to build it:<br>
+    </span>
+    <ul>
+      <li><span style="font-family: Comfortaa,Verdana;">Soldering. We need some
+          way to put the electronics together!</span></li>
+      <li><span style=" font-family: Comfortaa,Verdana;">Dremeling. The dummy
+          security cameras have all sorts of supports that will get in the way
+          of our electronics. <br>
+        </span></li>
+      <li><span style="  font-family: Comfortaa,Verdana;">Basic Raspberry Pi
+          skills. You need to be able to set up a Pi, put it on a wifi network,
+          and a few other Linux things. I will be showing how to do this in the
+          semi-guide. <br>
+        </span></li>
+    </ul>
+    <p><span style="font-family: Comfortaa,Verdana;">The first step of building
+        the iSec Capture is to take apart the security camera. Naturally, this
+        differs from camera to camera, but it is relatively straightforward. You
+        also need to remove all supports that are not needed to close the case.
+        <br>
+      </span></p>
+    <p><span style="font-family: Comfortaa,Verdana;">&lt;image h</span><span style="font-family: Comfortaa,Verdana;">ere&gt;</span></p>
+    <p><span style="font-family: Comfortaa,Verdana;">The next step is to set up
+        the Raspberry Pi. Install Raspbian Jessie lite. More software
+        instructions soon. <br>
+      </span></p>
+    <p><br>
+    </p>
+    <p>Will be finished soon!!<br>
+      <span style="font-family: Comfortaa,Verdana;"></span><span style="font-family: Comfortaa,Verdana;"><span
+          style="font-family: serif;"></span></span></p>
+    <p><span style="font-family: Comfortaa, Verdana;"></span></p>
+    <span style="font-family: Comfortaa, Verdana;"> </span>
+  </body>
+</html>
