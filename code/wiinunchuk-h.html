@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>wiinunchuk.h</title>
+  </head>
+  <body>
+    <h1> <span style="font-family: monospace;">wiinunchuk.h (unmodified from
+        original project):<code></code></span></h1>
+    <h1><span style="font-family: monospace;"><code></code></span></h1>
+    <span style="font-family: monospace;"></span>
+    <p><code>/*<br>
+        &nbsp;* File&nbsp; : wiinunchuk.h V0.9<br>
+        &nbsp;* Author: Tim Teatro<br>
+        &nbsp;* Date&nbsp; : Feb 2012<br>
+        &nbsp;*<br>
+        &nbsp;* Description:<br>
+        &nbsp;*<br>
+        &nbsp;*&nbsp; &nbsp;Library to set up and poll a Wii nunchuk with
+        Arduino. There are<br>
+        &nbsp;* many libraries available to do this, none of which I really
+        liked.<br>
+        &nbsp;* I was fond of Tod Kurt's, but his was incomplete as it did not
+        work<br>
+        &nbsp;* with knockoff nunchuks, it did not consider the least
+        significant<br>
+        &nbsp;* bits of accelerometer data and didn't have any advanced
+        functions<br>
+        &nbsp;* for processing the data such as calculating pitch and roll
+        angles.<br>
+        &nbsp;*<br>
+        &nbsp;*<br>
+        &nbsp;* Provides functions:<br>
+        &nbsp;*&nbsp; void nunchuk_setpowerpins()<br>
+        &nbsp;*&nbsp; void nunchuk_init()<br>
+        &nbsp;*&nbsp; int nunchuk_get_data()<br>
+        &nbsp;*&nbsp; void nunchuk_calibrate_joy()<br>
+        &nbsp;*&nbsp; inline unsigned int nunchuk_zbutton()<br>
+        &nbsp;*&nbsp; inline unsigned int nunchuk_cbutton()<br>
+        &nbsp;*&nbsp; inline int nunchuk_joy_x()<br>
+        &nbsp;*&nbsp; inline int nunchuk_cjoy_x()<br>
+        &nbsp;*&nbsp; inline int nunchuk_cjoy_y()<br>
+        &nbsp;*&nbsp; inline uint16_t nunchuk_accelx()<br>
+        &nbsp;*&nbsp; inline uint16_t nunchuk_accely()<br>
+        &nbsp;*&nbsp; inline uint16_t nunchuk_accelz()<br>
+        &nbsp;*&nbsp; inline int nunchuk_caccelx()<br>
+        &nbsp;*&nbsp; inline int nunchuk_caccely()<br>
+        &nbsp;*&nbsp; inline int nunchuk_caccelz()<br>
+        &nbsp;*&nbsp; inline int nunchuk_joyangle()<br>
+        &nbsp;*&nbsp; inline int nunchuk_rollangle()<br>
+        &nbsp;*&nbsp; inline int nunchuk_pitchangle()<br>
+        &nbsp;*&nbsp; void nunchuk_calibrate_accelxy()<br>
+        &nbsp;*&nbsp; void nunchuk_calibrate_accelz()<br>
+        &nbsp;*<br>
+        &nbsp;* This library is inspired by the work of Tod E. Kurt,<br>
+        &nbsp;*&nbsp; (http://todbot.com/blog/bionicarduino/)<br>
+        &nbsp;*<br>
+        &nbsp;* (c) 2012 by Tim Teatro<br>
+        &nbsp;* <br>
+        &nbsp;* This program is free software: you can redistribute it and/or
+        modify<br>
+        &nbsp;* it under the terms of the GNU General Public License as
+        published by<br>
+        &nbsp;* the Free Software Foundation, either version 3 of the License,
+        or<br>
+        &nbsp;* (at your option) any later version.<br>
+        &nbsp;*<br>
+        &nbsp;* This program is distributed in the hope that it will be useful,<br>
+        &nbsp;* but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+        &nbsp;* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&nbsp; See
+        the<br>
+        &nbsp;* GNU General Public License for more details.<br>
+        &nbsp;*<br>
+        &nbsp;* You should have received a copy of the GNU General Public
+        License<br>
+        &nbsp;* along with this program.&nbsp; If not, see
+        &lt;http://www.gnu.org/licenses/&gt;.<br>
+        &nbsp;*/<br>
+        <br>
+        #if (ARDUINO &gt;= 100)<br>
+        #include &lt;Arduino.h&gt;<br>
+        #else<br>
+        #include &lt;WProgram.h&gt;<br>
+        #endif<br>
+        <br>
+        //<br>
+        // These are suitable defaults for most nunchuks, including knockoffs.<br>
+        // If you intend to use the same nunchuk all the time and demand accu-<br>
+        // racy, it is worth your time to measure these on your own.<br>
+        //&nbsp; &nbsp; &nbsp;If you may want to use various nunchuks, you may
+        want to<br>
+        // calibrate using functions<br>
+        //&nbsp; &nbsp;nunchuk_calibrate_joy()<br>
+        //&nbsp; &nbsp;nunchuk_calibrate_accelxy()<br>
+        //&nbsp; &nbsp;nunchuk_calibrate_accelz()<br>
+        //<br>
+        #define DEFAULT_CENTRE_JOY_X 124<br>
+        #define DEFAULT_CENTRE_JOY_Y 132<br>
+        #define ACCEL_ZEROX 490<br>
+        #define ACCEL_ZEROY 500<br>
+        #define ACCEL_ZEROZ 525<br>
+        <br>
+        //<br>
+        // Global vars are kept to a minimum.<br>
+        //<br>
+        uint8_t ctrlr_type[6];&nbsp; &nbsp;// Used externally?<br>
+        uint8_t nunchuk_buf[6];&nbsp; // Keeps data payload from nunchuk<br>
+        // Accelerometer values and callibration centres:<br>
+        uint16_t accel_zerox, accel_zeroy, accel_zeroz;<br>
+        // Joystick values and calibration centres:<br>
+        int joy_x, joy_y, joy_zerox, joy_zeroy;<br>
+        <br>
+        //<br>
+        //<br>
+        // Uses port C (analog in) pins as power &amp; ground for nunchuk<br>
+        //<br>
+        void nunchuk_setpowerpins()<br>
+        &nbsp; {<br>
+        &nbsp; #define pwrpin PORTC3<br>
+        &nbsp; #define gndpin PORTC2<br>
+        &nbsp; DDRC |= _BV(pwrpin) | _BV(gndpin);<br>
+        &nbsp; PORTC &amp;=~ _BV(gndpin);<br>
+        &nbsp; PORTC |=&nbsp; _BV(pwrpin);<br>
+        &nbsp; delay(100); // wait for things to stabilize<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Initialize and join the I2C bus, and tell the nunchuk we're<br>
+        // talking to it. This function will work both with Nintendo<br>
+        // nunchuks, or knockoffs.<br>
+        //<br>
+        // See http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1264805255<br>
+        //<br>
+        void nunchuk_init()<br>
+        &nbsp; {<br>
+        &nbsp; Wire.begin();<br>
+        &nbsp; delay(1);<br>
+        &nbsp; Wire.beginTransmission(0x52);&nbsp; // device address<br>
+        &nbsp; #if (ARDUINO &gt;= 100)<br>
+        &nbsp; &nbsp; Wire.write((uint8_t)0xF0);&nbsp; // 1st initialisation
+        register<br>
+        &nbsp; &nbsp; Wire.write((uint8_t)0x55);&nbsp; // 1st initialisation
+        value<br>
+        &nbsp; &nbsp; Wire.endTransmission();<br>
+        &nbsp; &nbsp; delay(1);<br>
+        &nbsp; &nbsp; Wire.beginTransmission(0x52);<br>
+        &nbsp; &nbsp; Wire.write((uint8_t)0xFB);&nbsp; // 2nd initialisation
+        register<br>
+        &nbsp; &nbsp; Wire.write((uint8_t)0x00);&nbsp; // 2nd initialisation
+        value<br>
+        &nbsp; #else<br>
+        &nbsp; &nbsp; Wire.send((uint8_t)0xF0);&nbsp; &nbsp;// 1st
+        initialisation register<br>
+        &nbsp; &nbsp; Wire.send((uint8_t)0x55);&nbsp; &nbsp;// 1st
+        initialisation value<br>
+        &nbsp; &nbsp; Wire.endTransmission();<br>
+        &nbsp; &nbsp; delay(1);<br>
+        &nbsp; &nbsp; Wire.beginTransmission(0x52);<br>
+        &nbsp; &nbsp; Wire.send((uint8_t)0xFB);&nbsp; &nbsp;// 2nd
+        initialisation register<br>
+        &nbsp; &nbsp; Wire.send((uint8_t)0x00);&nbsp; &nbsp;// 2nd
+        initialisation value<br>
+        &nbsp; #endif<br>
+        &nbsp; Wire.endTransmission();<br>
+        &nbsp; delay(1);<br>
+        &nbsp; //<br>
+        &nbsp; // Set default calibration centres:<br>
+        &nbsp; //<br>
+        &nbsp; joy_zerox = DEFAULT_CENTRE_JOY_X;<br>
+        &nbsp; joy_zeroy = DEFAULT_CENTRE_JOY_Y;<br>
+        &nbsp; accel_zerox = ACCEL_ZEROX;<br>
+        &nbsp; accel_zeroy = ACCEL_ZEROY;<br>
+        &nbsp; accel_zeroz = ACCEL_ZEROZ;<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // T.T.<br>
+        // Standard nunchuks use a byte-wise encryption using bit-wise XOR<br>
+        // with 0x17. This function decodes a byte.<br>
+        //<br>
+        // This function is not needed since the way we initialize the nunchuk<br>
+        // does not XOR encrypt the bits.<br>
+        //<br>
+        //static inline char nunchuk_decode_byte (char x)<br>
+        //&nbsp; {<br>
+        //&nbsp; x = (x ^ 0x17) + 0x17;<br>
+        //&nbsp; return x;<br>
+        //&nbsp; }<br>
+        <br>
+        static void nunchuk_send_request()<br>
+        {<br>
+        &nbsp; Wire.beginTransmission(0x52);// transmit to device 0x52<br>
+        &nbsp; #if (ARDUINO &gt;= 100)<br>
+        &nbsp; &nbsp; Wire.write((uint8_t)0x00);// sends one byte<br>
+        &nbsp; #else<br>
+        &nbsp; &nbsp; Wire.send((uint8_t)0x00);// sends one byte<br>
+        &nbsp; #endif<br>
+        &nbsp; Wire.endTransmission();// stop transmitting<br>
+        }<br>
+        <br>
+        //<br>
+        //<br>
+        // Gets data from the nunchuk and packs it into the nunchuk_buff byte<br>
+        // aray. That array will be processed by other functions to extract<br>
+        // the data from the sensors and analyse.<br>
+        //<br>
+        int nunchuk_get_data()<br>
+        &nbsp; {<br>
+        &nbsp; int cnt=0;<br>
+        &nbsp; &nbsp; // Request six bytes from the chuck.<br>
+        &nbsp; Wire.requestFrom (0x52, 6);<br>
+        &nbsp; while (Wire.available ())<br>
+        &nbsp; &nbsp; {<br>
+        &nbsp; &nbsp; // receive byte as an integer<br>
+        &nbsp; &nbsp; #if (ARDUINO &gt;= 100)<br>
+        &nbsp; &nbsp; &nbsp; nunchuk_buf[cnt] = Wire.read();<br>
+        &nbsp; &nbsp; #else<br>
+        &nbsp; &nbsp; &nbsp; nunchuk_buf[cnt] = Wire.receive();<br>
+        &nbsp; &nbsp; #endif<br>
+        &nbsp; &nbsp; cnt++;<br>
+        &nbsp; &nbsp; }<br>
+        <br>
+        &nbsp; Wire.beginTransmission(0x52);// transmit to device 0x52<br>
+        &nbsp; #if (ARDUINO &gt;= 100)<br>
+        &nbsp; &nbsp; Wire.write((uint8_t)0x00);// sends one byte<br>
+        &nbsp; #else<br>
+        &nbsp; &nbsp; Wire.send((uint8_t)0x00);// sends one byte<br>
+        &nbsp; #endif<br>
+        &nbsp; Wire.endTransmission();// stop transmitting<br>
+        <br>
+        &nbsp; if (cnt &gt;= 5)<br>
+        &nbsp; &nbsp; {<br>
+        &nbsp; &nbsp; return 1;&nbsp; &nbsp;// success<br>
+        &nbsp; &nbsp; }<br>
+        &nbsp; return 0; // failure<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        //<br>
+        // Calibrate joystick so that we read the centre position as (0,0).<br>
+        // Otherwise, we use the default values from the header.<br>
+        //<br>
+        void nunchuk_calibrate_joy()<br>
+        &nbsp; {<br>
+        &nbsp; joy_zerox = joy_x;<br>
+        &nbsp; joy_zeroy = joy_y;<br>
+        &nbsp; }<br>
+        <br>
+        // Returns c and z button states: 1=pressed, 0=not<br>
+        // The state is in the two least significant bits of the 6th byte.<br>
+        // In the data, a 1 is unpressed and 0 is pressed, so this will be<br>
+        // reversed. These functions use a bitwise AND to determine the value<br>
+        // and then the () ? true : false; conditional structure to pass out<br>
+        // the appropriate state.<br>
+        //<br>
+        static inline unsigned int nunchuk_zbutton()<br>
+        &nbsp; {<br>
+        &nbsp; return ((nunchuk_buf[5] &gt;&gt; 0) &amp; 1) ? 0 : 1;<br>
+        &nbsp; }<br>
+        <br>
+        static inline unsigned int nunchuk_cbutton()<br>
+        &nbsp; {<br>
+        &nbsp; return ((nunchuk_buf[5] &gt;&gt; 1) &amp; 1) ? 0 : 1;<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Returns the raw x and y values of the the joystick, cast as ints.<br>
+        //<br>
+        static inline int nunchuk_joy_x()<br>
+        &nbsp; {<br>
+        &nbsp; return (int) nunchuk_buf[0];<br>
+        &nbsp; }<br>
+        <br>
+        static inline int nunchuk_joy_y()<br>
+        &nbsp; {<br>
+        &nbsp; return (int) nunchuk_buf[1];<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Return calibrated x and y values of the joystick.<br>
+        //<br>
+        static inline int nunchuk_cjoy_x()<br>
+        &nbsp; {<br>
+        &nbsp; return (int)nunchuk_buf[0] - joy_zerox;<br>
+        &nbsp; }<br>
+        <br>
+        static inline int nunchuk_cjoy_y()<br>
+        &nbsp; {<br>
+        &nbsp; return (int)nunchuk_buf[1] - joy_zeroy;<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Returns the raw 10-bit values from the 3-axis accelerometer sensor.<br>
+        // Of the six bytes recieved in a data payload from the nunchuk, bytes<br>
+        // 2, 3 and 4 are the most significant 8 bits of each 10-bit reading.<br>
+        // The final two bits are stored in the 6th bit along with the states<br>
+        // of the c and z button. These functions take the most significant<br>
+        // 8-bits and stacks it into a 16 bit unsigned integer, and then tacks<br>
+        // on the least significant bits from the 6th byte of the data<br>
+        // payload.<br>
+        // <br>
+        // Load the most sig digits into a blank 16-bit unsigned int leaving<br>
+        // two bits in the bottom ( via a 2-bit shift, &lt;&lt; 2) for the least
+        sig<br>
+        // bits:<br>
+        //&nbsp; 0x0000 | nunchuk_buff[*] &lt;&lt; 2<br>
+        // Add to the above, the least sig bits. The code for x:<br>
+        //&nbsp; nunchuk_buf[5] &amp; B00001100<br>
+        // for example selects the 3rd and 4th bits from the 6th byte of the<br>
+        // payload to be concatinated with nunchuk_buff[2] to complete the 10-<br>
+        // bit datum for a given axis.<br>
+        //<br>
+        static inline uint16_t nunchuk_accelx()<br>
+        &nbsp; {<br>
+        &nbsp; return (&nbsp; 0x0000 | ( nunchuk_buf[2] &lt;&lt; 2 ) +<br>
+        &nbsp; &nbsp; ( ( nunchuk_buf[5] &amp; B00001100 ) &gt;&gt; 2 )&nbsp; );<br>
+        &nbsp; }<br>
+        <br>
+        static inline uint16_t nunchuk_accely()<br>
+        &nbsp; {<br>
+        &nbsp; return (&nbsp; 0x0000 ^ ( nunchuk_buf[3] &lt;&lt; 2 ) +<br>
+        &nbsp; &nbsp; ( ( nunchuk_buf[5] &amp; B00110000 ) &gt;&gt; 4 )&nbsp; );<br>
+        &nbsp; }<br>
+        <br>
+        static inline uint16_t nunchuk_accelz()<br>
+        &nbsp; {<br>
+        &nbsp; return (&nbsp; 0x0000 ^ ( nunchuk_buf[4] &lt;&lt; 2 ) +<br>
+        &nbsp; &nbsp; ( ( nunchuk_buf[5] &amp; B11000000 ) &gt;&gt; 6 )&nbsp; );<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Returns the x,y and z accelerometer values with calibration values<br>
+        // subtracted.<br>
+        //<br>
+        static inline int nunchuk_caccelx()<br>
+        &nbsp; {<br>
+        &nbsp; &nbsp; return (int)(nunchuk_accelx() - accel_zerox);<br>
+        &nbsp; }<br>
+        <br>
+        static inline int nunchuk_caccely()<br>
+        &nbsp; {<br>
+        &nbsp; &nbsp; return (int)(nunchuk_accely() - accel_zeroy);<br>
+        &nbsp; }<br>
+        <br>
+        static inline int nunchuk_caccelz()<br>
+        &nbsp; {<br>
+        &nbsp; &nbsp; return (int)(nunchuk_accelz() - accel_zeroz);<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Returns joystick angle in degrees. It uses the ratio of calibrated<br>
+        // x and y potentiometer readings to find the angle, zero being direct<br>
+        // right (positive x) and measured counter-clockwise from there.<br>
+        //<br>
+        // If the atan2 function returns a negative angle, it is rotated back<br>
+        // into a positive angle. For those unfamiliar, the atan2 function<br>
+        // is a more inteligent atan function which quadrant the vector
+        &lt;x,y&gt;<br>
+        // is in, and returns the appropriate angle.<br>
+        //<br>
+        static inline int nunchuk_joyangle()<br>
+        &nbsp; {<br>
+        &nbsp; double theta;<br>
+        &nbsp; theta = atan2( nunchuk_cjoy_y(), nunchuk_cjoy_x() );<br>
+        &nbsp; while (theta &lt; 0) theta += 2*M_PI;<br>
+        &nbsp; return (int)(theta * 180/M_PI);<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Returns roll angle in degrees. Under the assumption that the<br>
+        // only acceleration detected by the accelerometer is acceleration due<br>
+        // to gravity, this function uses the ratio of the x and z<br>
+        // accelerometer readings to gauge pitch. This only works while the<br>
+        // nunchuk is being held still or at constant velocity with zero ext-<br>
+        // ernal force.<br>
+        //<br>
+        static inline int nunchuk_rollangle()<br>
+        &nbsp; {<br>
+        &nbsp; return (int) (&nbsp; atan2( (double) nunchuk_caccelx(),<br>
+        &nbsp; &nbsp; (double) nunchuk_caccelz() ) * 180 / M_PI&nbsp; );<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Returns pitch angle in degrees. Under the assumption that the<br>
+        // only acceleration detected by the accelerometer is acceleration due<br>
+        // to gravity, this function uses the ratio of the y and z<br>
+        // accelerometer readings to gauge pitch.&nbsp; This only works while
+        the<br>
+        // nunchuk is being held still or at constant velocity with zero ext-<br>
+        // ernal force.<br>
+        //<br>
+        static inline int nunchuk_pitchangle()<br>
+        &nbsp; {<br>
+        &nbsp; return (int) (&nbsp; atan2( (double) nunchuk_caccely(),<br>
+        &nbsp; &nbsp; (double)nunchuk_caccelz() ) * 180 / M_PI&nbsp; );<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // Because gravity pulls down on the z-accelerometer while the nunchuk<br>
+        // is upright, we need to calibrate {x,y} and {z} separately. Execute<br>
+        // this function while the nunchuk is known to be upright and then <br>
+        // execute nunchuk_calibrate_accelz() when the nunchuk is on its side.<br>
+        //<br>
+        void nunchuk_calibrate_accelxy()<br>
+        &nbsp; {<br>
+        &nbsp; accel_zerox = nunchuk_accelx();<br>
+        &nbsp; accel_zeroy = nunchuk_accely();<br>
+        &nbsp; }<br>
+        <br>
+        //<br>
+        //<br>
+        // See documentation for nunchuk_calibrate_xy()<br>
+        //<br>
+        void nunchuk_calibrate_accelz()<br>
+        &nbsp; {<br>
+        &nbsp; accel_zeroz = nunchuk_accelz();<br>
+        &nbsp; }<br>
+        //<br>
+        //<br>
+        // EOF<br>
+      </code></p>
+  </body>
+</html>

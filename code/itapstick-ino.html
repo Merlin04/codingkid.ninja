@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>itapstick</title>
+  </head>
+  <body>
+    <h1> <span style="font-family: monospace;">itapstick.ino:<code></code></span></h1>
+    <h1><span style="font-family: monospace;"><code></code></span></h1>
+    <span style="font-family: monospace;"><br>
+    </span><code>/*************************************************************************<br>
+      &nbsp; &nbsp; iTapStick Project:<br>
+      &nbsp; &nbsp; Wii Nunchuk-to-Mouse USB Controller Stick<br>
+      &nbsp; &nbsp; Copyright (c) 2015 iTapArcade, LLC<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; Date Created: 9 March 2015<br>
+      &nbsp; &nbsp; Date Modified: 10 March 2015<br>
+      &nbsp; &nbsp; Version: 1.0<br>
+      &nbsp; &nbsp; Visit us at iTapArcade.com<br>
+      &nbsp; &nbsp; Follow us on Twitter @iTapArcade<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; Function: Wired and Wireless mouse emulation (mouse cursor,
+      left click, and right click) <br>
+      &nbsp; &nbsp; from Wii Nunchuk to support Tap and Mouse control based
+      Games for PC, Mac, and Android based games<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; Support our open source projects by getting an iTapStick Kit
+      Available:<br>
+      &nbsp; &nbsp;
+https://www.tindie.com/products/itaparcade/itapstick-wii-nunchuck-to-mouse-usb-stick/?pt=ac_prod_search<br>&nbsp;
+      &nbsp; <br>
+      &nbsp; &nbsp; Microcontroller: Pro Trinket (3 or 5 volt) from Adafruit.com<br>
+      &nbsp; &nbsp; Note: Need 5 volt Pro Trinket for Wireless Wii Nunchuks!<br>
+      &nbsp;<br>
+      &nbsp; &nbsp; Wii Nunchuck Library Code from: <br>
+      &nbsp; &nbsp; Author: Tim Teatro<br>
+      &nbsp; &nbsp; Date&nbsp; : Feb 2012<br>
+      &nbsp; &nbsp;
+&nbsp;http://www.timteatro.net/2012/02/10/a-library-for-using-the-wii-nunchuk-in-arduino-sketches/<br>&nbsp;************************/<br>
+      <br>
+      &nbsp;/* Modified by codingkid.ninja */<br>
+      &nbsp;<br>
+      #include &lt;Wire.h&gt; <br>
+      #include &lt;EEPROM.h&gt;<br>
+      #include "wiinunchuk.h"&nbsp; // Wii Nunchuk Library<br>
+      #include &lt;ProTrinketMouse.h&gt;&nbsp; &nbsp; // Pro Trinket V-USB mouse
+      emulator<br>
+      &nbsp;<br>
+      int led = 13;&nbsp; &nbsp; // Use LED on Pro Trinket for Status and Button
+      Press Indicator<br>
+      int loop_cnt = 0;&nbsp; &nbsp;<br>
+      int mode = 0;&nbsp; &nbsp; &nbsp;// Defines mode of the iTapStick: left
+      mouse click is C or Z button<br>
+      &nbsp;<br>
+      // parameters for reading the joystick:<br>
+      int range = 20;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp;// output range of X or Y movement<br>
+      int threshold = range/10;&nbsp; &nbsp; &nbsp; // resting threshold<br>
+      int center = range/2;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// resting position
+      value<br>
+      int pressed = 1;<br>
+      <br>
+      void setup() {<br>
+      &nbsp; pinMode(led, OUTPUT); <br>
+      &nbsp;<br>
+      &nbsp; nunchuk_setpowerpins();&nbsp; &nbsp; // set power pins for Wii
+      Nunchuk<br>
+      &nbsp; nunchuk_init();&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //
+      initilization for the Wii Nunchuk<br>
+      &nbsp; delay(250);<br>
+      &nbsp; <br>
+      &nbsp; while(!nunchuk_get_data()){ // loop until Wii Nunchuk is connected
+      to Nunchucky<br>
+      &nbsp; nunchuk_init();<br>
+      &nbsp; delay(250);<br>
+      &nbsp; nunchuk_get_data();<br>
+      &nbsp; digitalWrite(led, HIGH); <br>
+      &nbsp; delay(250);<br>
+      &nbsp; digitalWrite(led, LOW); <br>
+      &nbsp; delay(500);<br>
+      &nbsp; }<br>
+      &nbsp; <br>
+      &nbsp; digitalWrite(led, HIGH);&nbsp; // let user know they can select
+      mode within (5 seconds)<br>
+      &nbsp; delay(5000);<br>
+      &nbsp;<br>
+      &nbsp;// check if user is holding any of buttons to change mode<br>
+      &nbsp;<br>
+      &nbsp; nunchuk_init(); <br>
+      &nbsp; delay(250);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// Once
+      connected lets get additional data to determine if C or Z<br>
+      &nbsp; nunchuk_get_data();&nbsp; // button is being held down for
+      programming mode<br>
+      &nbsp; delay(10);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+      &nbsp; nunchuk_get_data();<br>
+      &nbsp; delay(10);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+      &nbsp; nunchuk_get_data();<br>
+      &nbsp; <br>
+      &nbsp; int leftState = nunchuk_zbutton();<br>
+      &nbsp; int rightState = nunchuk_cbutton();<br>
+      &nbsp;<br>
+      &nbsp; &nbsp;<br>
+      &nbsp; &nbsp; if(leftState){&nbsp; // save mode for future time if Z is
+      defined as left mouse click<br>
+      &nbsp; &nbsp; &nbsp; &nbsp;mode = 0;&nbsp; &nbsp; <br>
+      &nbsp; &nbsp; &nbsp;EEPROM.write(0, 0); <br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(250);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(250);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(250);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(250);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(250);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(3000); <br>
+      &nbsp; &nbsp; }else if(rightState){ // save mode for future time if C is
+      defined as left mouse click <br>
+      &nbsp; &nbsp; &nbsp;mode = 1;<br>
+      &nbsp; &nbsp; &nbsp;EEPROM.write(0, 1); <br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH); <br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW);&nbsp; &nbsp;<br>
+      &nbsp; &nbsp; &nbsp;delay(100);<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);&nbsp; &nbsp; <br>
+      &nbsp; &nbsp; &nbsp;delay(3000);<br>
+      &nbsp; &nbsp; }else<br>
+      &nbsp; &nbsp; {&nbsp; <br>
+      &nbsp; &nbsp; mode = EEPROM.read(0);&nbsp; &nbsp;// no mode selection load
+      in saved mode<br>
+      &nbsp; &nbsp; }<br>
+      &nbsp; &nbsp;<br>
+      &nbsp; digitalWrite(led, LOW);&nbsp; // get LED indicator ready to show
+      when buttons are being pressed&nbsp; &nbsp; <br>
+      &nbsp;<br>
+      &nbsp;// Start Pro Trinket into Mouse mode<br>
+      &nbsp; TrinketMouse.begin();&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; &nbsp;// Initialize mouse library<br>
+      }<br>
+      &nbsp;<br>
+      void loop() {<br>
+      &nbsp; if( loop_cnt &gt; 10 ) { // every 10 msecs get new data<br>
+      &nbsp; &nbsp; loop_cnt = 0;<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp;<br>
+      &nbsp; &nbsp; if(nunchuk_get_data())&nbsp; &nbsp;// only check for data if
+      data is available from Wii Nunchuk<br>
+      &nbsp; &nbsp; {<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; // right and left click control<br>
+      &nbsp; &nbsp; int leftState = nunchuk_zbutton();<br>
+      &nbsp; &nbsp; int rightState = nunchuk_cbutton();<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; if (leftState) // if button is pressed update<br>
+      &nbsp; &nbsp; {<br>
+      &nbsp; &nbsp; &nbsp; if(mode==0){<br>
+      &nbsp; &nbsp; &nbsp; TrinketMouse.move(0,0,0,MOUSEBTN_LEFT_MASK);<br>
+      &nbsp; &nbsp; &nbsp; pressed = MOUSEBTN_LEFT_MASK;<br>
+      &nbsp; &nbsp; &nbsp; }else<br>
+      &nbsp; &nbsp; &nbsp; {<br>
+      &nbsp; &nbsp; &nbsp; TrinketMouse.move(0,0,0,MOUSEBTN_RIGHT_MASK);<br>
+      &nbsp; &nbsp; &nbsp; pressed = MOUSEBTN_RIGHT_MASK;<br>
+      &nbsp; &nbsp; &nbsp; }<br>
+      &nbsp; &nbsp; &nbsp; digitalWrite(led, HIGH); // show button is pressed by
+      LED<br>
+      &nbsp; &nbsp; &nbsp;}else if (rightState) // if button is pressed update<br>
+      &nbsp; &nbsp; {<br>
+      &nbsp; &nbsp; &nbsp; if(mode==0){<br>
+      &nbsp; &nbsp; &nbsp; TrinketMouse.move(0,0,0,MOUSEBTN_RIGHT_MASK);<br>
+      &nbsp; &nbsp; &nbsp; pressed = MOUSEBTN_RIGHT_MASK;<br>
+      &nbsp; &nbsp; &nbsp; }else<br>
+      &nbsp; &nbsp; &nbsp; {<br>
+      &nbsp; &nbsp; &nbsp; TrinketMouse.move(0,0,0,MOUSEBTN_LEFT_MASK);&nbsp; <br>
+      &nbsp; &nbsp; &nbsp; pressed = MOUSEBTN_LEFT_MASK;<br>
+      &nbsp; &nbsp; &nbsp; }<br>
+      &nbsp; &nbsp; &nbsp; &nbsp;digitalWrite(led, HIGH);// show button is
+      pressed by LED&nbsp; <br>
+      &nbsp; &nbsp; &nbsp;}<br>
+      &nbsp; &nbsp; &nbsp;else<br>
+      &nbsp; &nbsp; {<br>
+      &nbsp; &nbsp; TrinketMouse.move(0,0,0,0); // if no button is pressed
+      update<br>
+      &nbsp; &nbsp; pressed = 0;<br>
+      &nbsp; &nbsp; &nbsp;digitalWrite(led, LOW); // show no button is pressed
+      by LED<br>
+      &nbsp; &nbsp; }<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; int xReading = nunchuk_joy_x();&nbsp; &nbsp; // read the x
+      axis<br>
+      &nbsp; &nbsp; xReading = map(xReading, 38, 232, 0, range); // map
+      accordingly<br>
+      &nbsp; &nbsp; int xDistance = xReading - center;<br>
+      &nbsp; &nbsp; if (abs(xDistance) &lt; threshold) {<br>
+      &nbsp; &nbsp; &nbsp; xDistance = 0;<br>
+      &nbsp; &nbsp; } <br>
+      &nbsp;<br>
+      &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; int yReading = nunchuk_joy_y();&nbsp; &nbsp;// read the y
+      axis<br>
+      &nbsp; &nbsp; yReading = map(yReading, 38, 232, 0, range); // map
+      accordingly<br>
+      &nbsp; &nbsp; int yDistance = yReading - center;<br>
+      &nbsp; &nbsp; if (abs(yDistance) &lt; threshold) {<br>
+      &nbsp; &nbsp; &nbsp; yDistance = 0;<br>
+      &nbsp; &nbsp; } <br>
+      &nbsp;<br>
+      &nbsp; &nbsp; if ((xDistance != 0) || (yDistance != 0)) { // move the
+      mouse based on x and y<br>
+      &nbsp; &nbsp; &nbsp; <br>
+      &nbsp; &nbsp; TrinketMouse.move(xDistance, -yDistance, 0, pressed); <br>
+      &nbsp; &nbsp; } <br>
+      &nbsp; &nbsp; }<br>
+      &nbsp; }<br>
+      &nbsp; loop_cnt++;<br>
+      &nbsp; delay(1);<br>
+      }</code><br>
+  </body>
+</html>
