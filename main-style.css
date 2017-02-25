@@ -1,0 +1,51 @@
+html {font-size: 100.01%;}
+
+h1 {
+  padding-bottom: 20px;
+  padding-top: 20px;
+  margin: 0;
+  float: left;
+}
+h3 {
+  background-color: cornflowerblue;
+  margin: 0;
+  display: block; float: none;
+}
+body {
+  background-image: url("bg.png");
+  font-family: Comfortaa, Verdana;
+}
+
+#container {
+  margin: 0 auto;
+}
+#content {
+  width: 100%;
+  display: table;
+}
+
+#content .sidebar.sb1 {
+  width: 15%;
+  border: 1px solid #dadada;
+}
+#content .sidebar.sb2 {
+  width: 15%;
+  border: 1px solid #dadada;
+}
+#content #main {
+  width: 70%;
+}
+
+#content .sidebar.sb1,
+#content .sidebar.sb2,
+#content #main
+{
+  display: table-cell;
+}
+.whatdoicallit {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+

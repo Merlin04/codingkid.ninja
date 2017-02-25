@@ -4,52 +4,86 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Home | codingkid.ninja</title>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
-    <style>
-      h1 {
-        background-color: lightskyblue;
-        padding-bottom: 20px;
-        padding-top: 20px;
-        margin: 0;
-      }
-      h3 {
-        background-image: url("menubg.png");
-        padding-bottom: 7px;
-        padding-top: 7px;
-        margin: 0;
-      }
-      body {
-             background-image: url("bg.png");
-      }
-    </style>
-  </head>
-  <body> <span style="font-family: Comfortaa, Verdana;"> </span>
-    <h1 style="    text-align: center;"><span style="font-family: Comfortaa, Verdana;">codingkid.ninja</span></h1>
-    <span style="font-family: Dekko, cursive;"> </span>
-    <h3 style="           text-align: center;"><span style="font-family: Comfortaa, Verdana;">Home
-        | <a href="stuff.html">Stuff</a> | <a href="https://github.com/Merlin04">Github</a>
-        | <a href="Hello%20World%21.html">Test page</a> | <a href="http://codingkid.weebly.com">Old
-          site</a><br>
-      </span> </h3>
-    <span style="font-family: Comfortaa, Verdana;"> </span> <span style="font-family: Comfortaa, Verdana;">
-    </span>
-    <p><span style="font-family: Comfortaa, Verdana;"><br>
-        This is a work in progress site to replace <a href="http://codingkid.weebly.com">codingkid.weebly.com</a>.
-        <br>
-      </span></p>
-    <p><span style="font-family: Comfortaa, Verdana;">codingkid.ninja is a
-        website about my code and projects. </span></p>
-    <p><span style="font-family: Comfortaa, Verdana;">Looking for some great
-        business cards? I recommend MOO. Use my code and get $15 off, which
-        prices a pack of cards at $5!: <a href="https://refer.moo.com/s/et2sw">https://refer.moo.com/s/et2sw</a></span></p>
-    <p><span style="font-family: Comfortaa, Verdana;">This is not a paid advertisement,
-        although I get $15 off too!</span><br>
-    </p>
-    <span style="font-family: Comfortaa, Verdana;"></span><span style="font-family: Comfortaa, Verdana;"></span>
-    <iframe src="home-iframes/activity.html" height="440" width="300">Your
-      browser doesn't support iframes. Please upgrade from IE4.</iframe> <iframe
-      src="home-iframes/portal.html" height="440" width="520"> Your browser
-      doesn't support iframes. Please upgrade from IE4.</iframe>
-    <p><span style="font-family: Comfortaa, Verdana;"></span></p>
-    <span style="font-family: Comfortaa, Verdana;"> </span>
+    <link href="main-style.css" rel="stylesheet">
+    <link rel="stylesheet" href="flexslider.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="jquery.flexslider.js"></script>
+    <script type="text/javascript" charset="utf-8">
+  $(window).load(function() {
+    $('.flexslider').flexslider();
+  });
+</script> </head>
+  <body>
+    <div id="header">
+      <h3 style="text-align: left;" class="whatdoicallit"><img src="mb1.svg" style="width: 500px; height: 100px;"
+          title="codingkid.ninja" alt="codingkid.ninja logo">Home |&nbsp; <a href="stuff.html">Projects</a>&nbsp;|&nbsp;
+        <a href="https://github.com/Merlin04">Github</a><span style="color: #0000ee;">&nbsp;</span>
+        |&nbsp; <a href="Hello%20World%21.html">Test page</a>&nbsp;|&nbsp; <a
+          href="http://codingkid.weebly.com">Old site</a> </h3>
+    </div>
+    <div id="content">
+      <div class="sidebar sb1">
+        <h2>Updates</h2>
+        <p>codingkid.ninja v2.0</p>
+        <p>I have been trying to make the codingkid.ninja website look better.
+          After lots of work, I have come up with what you see here. Here is
+          what changed:</p>
+        <p>&nbsp;+ Changed "Stuff" to "<a href="stuff.html">Projects</a>"</p>
+        <p>&nbsp;+ Created logo</p>
+        <p>&nbsp;+ Added new menu bar</p>
+        <p>&nbsp;+ WIP: theme changer</p>
+        <p>&nbsp;+ "Updates" and "Portal" are no longer iframes, and are now in
+          columns. </p>
+        <p>&nbsp;+ Revised description of site</p>
+        <p>&nbsp;+ Added carousel</p>
+        <p>&nbsp;+ Created a shared CSS file</p>
+        <p>&nbsp;+ Added a "View past updates" button in the "Updates" column.</p>
+        <p>&nbsp;+ Created "<a href="about.html">About website</a>" page<br>
+        </p>
+        <p>- Less mobile friendly, solution (hopefully) coming soon. </p>
+        <p>Internal changes:</p>
+        <p>&nbsp;+ Created new local folder for the website with no unneeded
+          files</p>
+        <p>&nbsp;+ I got much better at CSS</p>
+        <p>(Add date!)</p>
+        <p><a href="updates.html">View past updates</a><br>
+        </p>
+      </div>
+      <div id="main">
+        <p>&nbsp;</p>
+        <div class="flexslider">
+          <ul class="slides">
+            <li><a href="usbchuck.html"><img src="usbchuck-banner.png"></a></li>
+            <li> <a href="isec.html"><img src="isec-banner.png"></a></li>
+            <li> <img src="piboy-banner.png"> </li>
+          </ul>
+        </div>
+        <p> This is a work in progress site to replace <a href="http://codingkid.weebly.com">codingkid.weebly.com</a>.</p>
+        <p>codingkid.ninja is a website documenting my code and projects. </p>
+        <p>Looking for some great business cards? I recommend MOO. Use my code
+          and get $15 off, which prices a pack of cards at $5!: <a href="https://refer.moo.com/s/et2sw">https://refer.moo.com/s/et2sw</a></p>
+        <p>This is not a paid advertisement, although I get $15 off too!</p>
+      </div>
+      <div class="sidebar sb2">
+        <h2>Portal</h2>
+        <a href="https://www.raspberrypi.org/"> <img style="width: 120px; height: 142px;"
+            title="Raspberry Pi (Raspberry Pi is a trademark of the Raspberry Pi Foundation)"
+            alt="Raspberry Pi Logo (Raspberry Pi is a trademark of the Raspberry Pi Foundation)"
+            src="portal-img/raspberry-pi-logo.png"></a><a href="https://www.sparkfun.com/">
+        </a> <a href="https://www.sparkfun.com/"> <img style="height: 142px;"
+            title="Sparkfun" alt="Sparkfun Logo" src="portal-img/sparkfun-logo.png">
+        </a> <a href="https://www.adafruit.com/"> <img style="width: 368px; height: 142px;"
+            title="Adafruit" alt="Adafruit Logo" src="portal-img/adafruit-logo.png">
+        </a> <a href="https://github.com/"> <img style="width: 142px; height: 142px;"
+            title="Github" alt="Github Logo" src="portal-img/github-logo.png"> </a>
+        <a href="http://makezine.com/"> <img style="width: 142px; height: 142px;"
+            title="Make:" alt="Make: Logo" src="portal-img/make-logo.png"> </a>
+      </div>
+    </div>
+    <div id="footer">
+      <p>Theme changer coming soon!</p>
+      <p><a href="about.html">About this site</a> | (c) 2017 codingkid.ninja.
+        Site under MIT License. </p>
+    </div>
   </body>
 </html>
