@@ -12,8 +12,10 @@ h3 {
   display: block; float: none;
 }
 body {
+  background-color: white;
   background-image: url("bg.png");
   font-family: Comfortaa, Verdana;
+  overflow-x: hidden;
 }
 
 #container {
@@ -48,4 +50,118 @@ body {
   align-items: center;
   height: 100px;
 }
+.hamburger-bar {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  justify-content: center;
+}
+
+.logo {
+  width: 500px; height: 100px;
+}
+
+/* Now time for the navigation menu stuff... Thanks to sitepoint.com for the code! */
+
+.navigation {
+    list-style: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.site-wrap {
+    min-width: 100%;
+    min-height: 100%;
+    position: relative;
+    top: 0;
+    bottom: 100%;
+    left: 0;
+    z-index: 1;
+
+}
+
+.nav-trigger {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+label[for="nav-trigger"] {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+    background-size: contain;
+}
+
+.nav-trigger:checked + label {
+    left: 215px;
+}
+
+.nav-trigger:checked ~ .site-wrap {
+    left: 200px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+}
+
+.nav-trigger + label, .site-wrap {
+    transition: left 0.2s;
+}
+
+@media screen and (min-width: 881px) {
+  .nav-trigger + label {
+    display: none;
+  }
+  .navigation {
+    display: none;
+  }
+  .hamburger-bar {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .whatdoicallit {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 1050px) {
+  .whatdoicallit {
+    font-size: 18px;
+    height: 75px;
+  }
+  .logo {
+    height: 75px;
+    width: 375px;
+  }
+  #content .sidebar.sb2 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .whatdoicallit {
+    display: none;
+  }
+  .site-wrap {
+    background-color: white;
+  }
+  
+}
+@media screen and (max-width: 400px) {
+  #content .sidebar.sb1 {
+    display: none;
+  }
+  
+}
+
 
