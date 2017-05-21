@@ -7,3 +7,6 @@ codingkid.ninja is a website documenting my code and projects. It aims to help o
 
 ## Want more info?
 Visit http://codingkid.ninja/about.html. 
+
+## Mascot (beta)
+![Angry square cat](http://codingkid.ninja/angry-cat-from-edges2cats.png)
