@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BBC micro:bit review | codingkid.ninja</title>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
+    <link href="main-style.css" rel="stylesheet">
+  </head>
+  <body>
+    <ul class="navigation">
+      <li class="nav-item"><a href="index.html">Home</a></li>
+      <li class="nav-item"><a href="stuff.html">Projects</a></li>
+      <li class="nav-item"><a href="reviews.html">Reviews</a></li>
+      <li class="nav-item"><a href="https://github.com/merlin04">Github</a></li>
+      <li class="nav-item"><a href="Hello%20World%21.html">Test page</a></li>
+      <li class="nav-item"><a href="http://codingkid.weebly.com">Old site</a></li>
+    </ul>
+    <input id="nav-trigger" class="nav-trigger" type="checkbox"> <label for="nav-trigger"></label>
+    <div class="site-wrap">
+      <div id="header">
+        <h3 style="text-align: left;" class="whatdoicallit"><img class="logo" src="mb1.svg"
+            title="codingkid.ninja" alt="codingkid.ninja logo"><a href="index.html">Home</a>&nbsp;|&nbsp;
+          <a title="Projects" href="stuff.html"> Projects</a>&nbsp;|&nbsp; <a title="Reviews"
+            href="reviews.html">Reviews</a>&nbsp;|&nbsp; <a href="https://github.com/Merlin04">Github</a><span
+            style="color: #0000ee;">&nbsp;</span> |&nbsp; <a href="Hello%20World%21.html">Test
+            page</a>&nbsp;|&nbsp; <a href="http://codingkid.weebly.com">Old
+            site</a> </h3>
+        <h3 style="text-align: center;" class="hamburger-bar">codingkid.ninja</h3>
+      </div>
+      <span><br>
+      </span>
+      <h2><span>BBC micro:bit - is it just for education?</span></h2>
+      <p>In 2015, the BBC (British Broadcasting Corporation) gave away a
+        development board called the BBC micro:bit (named after the BBC Micro)
+        to every Year 7 (11-12 year old) student. The goal was to try to <a href="https://arstechnica.co.uk/gadgets/2015/07/bbc-microbit-a-free-single-board-pc-for-every-year-7-kid-in-the-uk/">"encourage&nbsp;kids
+          to learn how computers work, rather than simply consuming media on
+          them."</a> I do not live in the UK, so I did not get one. However,
+        they are now being sold commercially. The $15 dollar board has a bunch
+        of goodies packed in, including Bluetooth, a 5*5 led matrix, two
+        buttons, an accelerometer, and more! But is it any good? Let's find out!</p>
+      <img style="width: 884px; height: 497px;" title="micro:bit box front" alt="micro:bit box front"
+        src="microbit-pics/box-front.jpg"><br>
+      <img style="width: 884px; height: 497px;" title="micro:bit box back" alt="micro:bit box back"
+        src="microbit-pics/box-back.jpg"><br>
+      <p>The box does not give much information as to what's inside. It does say
+        that a portion of the sales from the micro:bit goes to the Micro:bit
+        Educational Foundation. Let's open the box!</p>
+      <img style="width: 884px; height: 497px;" title="Inside of box" alt="Inside of box"
+        src="microbit-pics/inside.jpg"><br>
+      <br>
+      Inside there is a quick start guide, a "safety guide" which is not very
+      helpful, and the board itself, packaged in a very strange anti-static bag.
+      <br>
+      <br>
+      <img style="width: 884px; height: 497px;" title="The micro:bit itself!" alt="The micro:bit itself!"
+        src="microbit-pics/microbit.jpg"><br>
+      <br>
+      Here's the micro:bit itself! It is quite small. Here it is next to a
+      Raspberry Pi Zero in a case:<br>
+      <br>
+      <img style="width: 884px; height: 497px;" title="micro:bit vs Pi Zero. " alt="micro:bit vs Pi Zero. "
+        src="microbit-pics/compare.jpg"><br>
+      <br>
+      The micro:bit has a Micro USB connector. When I plug it in to my computer,
+      it powers on and runs a demo program showcasing the hardware. The LEDs are
+      bright!<br>
+      <br>
+      <img style="width: 884px; height: 497px;" title="TOO BRIGHT!" alt="TOO BRIGHT!"
+        src="microbit-pics/leds.jpg"><br>
+      <br>
+      The demo program is only interesting for a minute or two. Time to try
+      programming it!<br>
+      The quick start guide tells me to go to the website "microbitworld.me". I
+      try going there, but it seems to not exist anymore. I was able to find
+      microbit.org. It seemed relatively straightforward to program, it used
+      MicroPython or a block-based Javascript Microsoft made. I decided to try
+      Python first. I was easily able to make text scroll across the screen. I
+      also tried the Microsoft language. I built a sound-effects machine by
+      connecting my headphones to the alligator clip terminals on the board.
+      When it came time to upload my code, all I had to do was download a .hex
+      file and put it onto the micro:bit's internal storage (it shows up as a
+      flash drive). <br>
+      <br>
+      I had previously made a program for my Pyboard, which also runs
+      Micropython, called iSec (different from iSec Capture), which is a
+      miniature security system featuring a code that would need to be entered
+      to stop an alarm. A page on the iSec is (hopefully) coming soon! I was
+      excited to try to port this to the micro:bit, which uses a slightly
+      different syntax for accessing pins. But how could I put the micro:bit
+      into a breadboard?<br>
+      <br>
+      <img style="width: 665px; height: 715px;" title="Sparkfun breakout board. "
+        alt="Sparkfun breakout board. " src="microbit-pics/breakout.jpg"><br>
+      <br>
+      Enter the Sparkfun micro:bit breakout board ($5)! This plugs into the
+      bottom of the micro:bit and gives you a place to solder header pins. Some
+      people would be upset at having to use a breakout board, but I like the
+      idea. If I have multiple circuits that use the micro:bit, I can unplug the
+      micro:bit from one and plug it into another. <br>
+      <br>
+      The final feature I want to cover didn't work for me. It was the micro:bit
+      app. The micro:bit has Bluetooth connectivity, which should allow one to
+      flash the board from their phone. Since the software development is all
+      done online, you should not need a computer to program it. However, I was
+      not able to get the micro:bit to pair. I am not sure if this affects the
+      "radio", which allows two micro:bits to talk to each other. I am not that
+      sad that this feature doesn't work, because I would never want to code it
+      from my phone anyway. I would prefer a real keyboard. <br>
+      <h2>Overall Judgement</h2>
+      <p>I rate the BBC micro:bit 5 stars out of 5. Here's why:</p>
+      <p>&nbsp;- The board is very easy to use, and the programming languages
+        are very well supported. </p>
+      <p>&nbsp;- The breakout may be a pain for some people, but it allows the
+        micro:bit to be swapped between different circuits easily. </p>
+      <p>&nbsp;- The built-in hardware allows one to get started as soon as they
+        get the board. </p>
+      <p>&nbsp;- The Bluetooth not working is not a problem for me, as I wasn't
+        planning on using it anyway. </p>
+      <p>&nbsp;- Even the board is targeted towards schools, it still is great
+        for other people. </p>
+      <p>Here's a comparison between Pyboard and micro:bit:</p>
+      <table style="width: 808px; height: 244px;" border="1">
+        <tbody>
+          <tr>
+            <td><br>
+            </td>
+            <td>micro:bit</td>
+            <td>Pyboard</td>
+          </tr>
+          <tr>
+            <td style="width: 155.067px;">Price</td>
+            <td>$15 + $5 for breakout board</td>
+            <td>$40</td>
+          </tr>
+          <tr>
+            <td>Built-in hardware</td>
+            <td>5*5 LED matrix, two buttons, Bluetooth, accelerometer, compass</td>
+            <td>One button, accelerometer, microSD slot, four LEDs, real time
+              clock</td>
+          </tr>
+          <tr>
+            <td>Processor</td>
+            <td style="width: 303.117px;">16 MHz ARM Cortex-M0</td>
+            <td style="width: 327.817px;">168 MHz ARM Cortex-M4 w/ hw floating
+              point</td>
+          </tr>
+          <tr>
+            <td>RAM</td>
+            <td>16 KB</td>
+            <td>196 KB</td>
+          </tr>
+          <tr>
+            <td>Storage</td>
+            <td>256 KB</td>
+            <td>1048 KB, expandable with microSD</td>
+          </tr>
+          <tr>
+            <td>Included items</td>
+            <td>Antistatic bag, quick start guide, "safety guide"</td>
+            <td>Antistatic plastic box, two stickers</td>
+          </tr>
+          <tr>
+            <td>Programming Language</td>
+            <td>MicroPython, Scratch (partial support), Javascript</td>
+            <td>MicroPython</td>
+          </tr>
+          <tr>
+            <td>GPIO ports (without hardware attached)</td>
+            <td>11</td>
+            <td>30</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>As you can see, the Pyboard is much more powerful than the micro:bit,
+        but that comes at a price. It is twice as expensive as the micro:bit with
+        the breakout board! Most projects don't need that much power, so I would
+        recommend getting a micro:bit instead of a Pyboard if you want to try a
+        board running MicroPython. <br>
+      </p>
+      <h2></h2>
+      <h2><span> </span> </h2>
+    </div>
+  </body>
+</html>
