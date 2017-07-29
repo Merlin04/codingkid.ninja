@@ -62,6 +62,11 @@ body {
   width: 500px; height: 100px;
 }
 
+.snorlink {
+  width: 552px;
+  max-width: 100%;
+}
+
 /* Now time for the navigation menu stuff... Thanks to sitepoint.com for the code! */
 
 .navigation {
@@ -117,7 +122,7 @@ label[for="nav-trigger"] {
     transition: left 0.2s;
 }
 
-@media screen and (min-width: 881px) {
+@media screen and (min-width: 956px) {
   .nav-trigger + label {
     display: none;
   }
@@ -127,14 +132,17 @@ label[for="nav-trigger"] {
   .hamburger-bar {
     display: none;
   }
+  .search {
+    display: none;
+  }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1435px) {
   .whatdoicallit {
     font-size: 20px;
   }
 }
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1145px) {
   .whatdoicallit {
     font-size: 18px;
     height: 75px;
@@ -148,7 +156,7 @@ label[for="nav-trigger"] {
   }
 }
 
-@media screen and (max-width: 880px) {
+@media screen and (max-width: 955px) {
   .whatdoicallit {
     display: none;
   }
@@ -160,6 +168,14 @@ label[for="nav-trigger"] {
 @media screen and (max-width: 400px) {
   #content .sidebar.sb1 {
     display: none;
+  }
+  
+}
+
+@media screen and (max-width: 530px) {
+  .search {
+    display: none;
+    
   }
   
 }
