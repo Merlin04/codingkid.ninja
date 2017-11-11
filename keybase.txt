@@ -1,0 +1,55 @@
+==================================================================
+https://keybase.io/merlin04
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://codingkid.ninja
+  * I am merlin04 (https://keybase.io/merlin04) on keybase.
+  * I have a public key ASD9F4CECJYi8maJirTrLP-eynHCSr1ZLZHmjHjSbwXCMwo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120fd178084089622f266898ab4eb2cff9eca71c24abd592d91e68c78d26f05c2330a",
+      "host": "keybase.io",
+      "kid": "0120fd178084089622f266898ab4eb2cff9eca71c24abd592d91e68c78d26f05c2330a",
+      "uid": "85548a1a42a5d8f940b0771f33160f19",
+      "username": "merlin04"
+    },
+    "merkle_root": {
+      "ctime": 1510427656,
+      "hash": "4002cfd8f34f7a34d9a94e76e71e076d7d660948e028357a3d461a1b8c24d31eb5db123e77937fd58cc85a6fa0a664bd23fcbda5319e4142d3fd516f613693b6",
+      "hash_meta": "0fa6e651c14a1543b49375758755a76523fffa3a23517c6356d320474800ddfa",
+      "seqno": 1694394
+    },
+    "service": {
+      "hostname": "codingkid.ninja",
+      "protocol": "http:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.35"
+  },
+  "ctime": 1510427678,
+  "expire_in": 504576000,
+  "prev": "49f7c32ceb1b04987763fe019a4f9d079ec15e0cd64cbee2009f2afd8b2d705d",
+  "seqno": 8,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg/ReAhAiWIvJmiYq06yz/nspxwkq9WS2R5ox40m8FwjMKp3BheWxvYWTFA0Z7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwZmQxNzgwODQwODk2MjJmMjY2ODk4YWI0ZWIyY2ZmOWVjYTcxYzI0YWJkNTkyZDkxZTY4Yzc4ZDI2ZjA1YzIzMzBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwZmQxNzgwODQwODk2MjJmMjY2ODk4YWI0ZWIyY2ZmOWVjYTcxYzI0YWJkNTkyZDkxZTY4Yzc4ZDI2ZjA1YzIzMzBhIiwidWlkIjoiODU1NDhhMWE0MmE1ZDhmOTQwYjA3NzFmMzMxNjBmMTkiLCJ1c2VybmFtZSI6Im1lcmxpbjA0In0sIm1lcmtsZV9yb290Ijp7ImN0aW1lIjoxNTEwNDI3NjU2LCJoYXNoIjoiNDAwMmNmZDhmMzRmN2EzNGQ5YTk0ZTc2ZTcxZTA3NmQ3ZDY2MDk0OGUwMjgzNTdhM2Q0NjFhMWI4YzI0ZDMxZWI1ZGIxMjNlNzc5MzdmZDU4Y2M4NWE2ZmEwYTY2NGJkMjNmY2JkYTUzMTllNDE0MmQzZmQ1MTZmNjEzNjkzYjYiLCJoYXNoX21ldGEiOiIwZmE2ZTY1MWMxNGExNTQzYjQ5Mzc1NzU4NzU1YTc2NTIzZmZmYTNhMjM1MTdjNjM1NmQzMjA0NzQ4MDBkZGZhIiwic2Vxbm8iOjE2OTQzOTR9LCJzZXJ2aWNlIjp7Imhvc3RuYW1lIjoiY29kaW5na2lkLm5pbmphIiwicHJvdG9jb2wiOiJodHRwOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC4zNSJ9LCJjdGltZSI6MTUxMDQyNzY3OCwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsInByZXYiOiI0OWY3YzMyY2ViMWIwNDk4Nzc2M2ZlMDE5YTRmOWQwNzllYzE1ZTBjZDY0Y2JlZTIwMDlmMmFmZDhiMmQ3MDVkIiwic2Vxbm8iOjgsInRhZyI6InNpZ25hdHVyZSJ9o3NpZ8RApGm2fzGCboKnr7kYR/jGSThvhsrzW2OmZOx2lEZ6w7m4aTjfFybEQGXeI8examOmZDWAk+XI14lQYCdjmkXjBqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIP2AMiQ6yERWQ/K8gVDycG5mCDPJ7vHsDkLYvAdj/iaio3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/merlin04
+
+==================================================================
