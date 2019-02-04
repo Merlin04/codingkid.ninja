@@ -1,3 +1,5 @@
+# This website is not maintained anymore. Please see merlin04.github.io/dev for my current website. 
+
 # codingkid.ninja
 My website!
 http://codingkid.ninja
