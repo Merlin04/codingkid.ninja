@@ -1,4 +1,4 @@
-# This website is not maintained anymore. Please see merlin04.github.io/dev for my current website. 
+# This website is not maintained anymore and has not been updated since December 3, 2017. Please see benjaminsmith.dev for my current website. 
 
 # codingkid.ninja
 My website!
